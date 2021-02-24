@@ -28,21 +28,21 @@ def send():
         msg["to"] = recvEmail
         msg.set_content(body)
 
-        filename = attachments[0]
-        filetype = filename.split(".")
-        filetype = filetype[1]
-        print(filetype)
-        if filetype == "jpg" or filetype == "JPG" or filetype == "png" or filetype == "PNG":
-            import imghdr
-            with open(filename, "rb") as f:
-                file_data = f.read()
-                image_type = imghdr.what(filename)
-            msg.add_attachment(file_data, maintype="image", subtype=image_type, filename=f.name)
+        for filename in attachments:
+            filetype = filename.split(".")
+            filetype = filetype[1]
+            print(filetype)
+            if filetype == "jpg" or filetype == "JPG" or filetype == "png" or filetype == "PNG":
+                import imghdr
+                with open(filename, "rb") as f:
+                    file_data = f.read()
+                    image_type = imghdr.what(filename)
+                msg.add_attachment(file_data, maintype="image", subtype=image_type, filename=f.name)
 
-        else:
-            with open(filename, "rb") as f:
-                file_data = f.read()
-            msg.add_attachment(file_data, maintype="application", subtype="octet-stream", filename=f.name)
+            else:
+                with open(filename, "rb") as f:
+                    file_data = f.read()
+                msg.add_attachment(file_data, maintype="application", subtype="octet-stream", filename=f.name)
 
 
         if(email == "" or password == "" or recvEmail == "" or subject == "" or body == ""):
